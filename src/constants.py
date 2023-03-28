@@ -27,37 +27,11 @@ server_ids = os.environ["ALLOWED_SERVER_IDS"].split(",")
 for s in server_ids:
     ALLOWED_SERVER_IDS.append(int(s))
 
-SERVER_TO_MODERATION_CHANNEL: Dict[int, int] = {}
-server_channels = os.environ.get("SERVER_TO_MODERATION_CHANNEL", "").split(",")
-for s in server_channels:
-    values = s.split(":")
-    SERVER_TO_MODERATION_CHANNEL[int(values[0])] = int(values[1])
-
 # Send Messages, Create Public Threads, Send Messages in Threads, Manage Messages, Manage Threads, Read Message History, Use Slash Command
 BOT_INVITE_URL = f"https://discord.com/api/oauth2/authorize?client_id={DISCORD_CLIENT_ID}&permissions=328565073920&scope=bot"
 
-MODERATION_VALUES_FOR_BLOCKED = {
-    "hate": 0.9,
-    "hate/threatening": 0.9,
-    "self-harm": 0.9,
-    "sexual": 0.9,
-    "sexual/minors": 0.9,
-    "violence": 0.9,
-    "violence/graphic": 0.9,
-}
-
-MODERATION_VALUES_FOR_FLAGGED = {
-    "hate": 0.9,
-    "hate/threatening": 0.9,
-    "self-harm": 0.9,
-    "sexual": 0.9,
-    "sexual/minors": 0.9,
-    "violence": 0.9,
-    "violence/graphic": 0.9,
-}
-
 SECONDS_DELAY_RECEIVING_MSG = (
-    0.5  # give a delay for the bot to respond so it can catch multiple messages
+    0.0  # give a delay for the bot to respond so it can catch multiple messages
 )
 MAX_THREAD_MESSAGES = 200
 ACTIVATE_THREAD_PREFX = "💬✅"
