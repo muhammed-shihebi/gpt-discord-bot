@@ -91,11 +91,11 @@ async def chat_command(int: discord.Interaction, message: str):
             # fetch completion
             messages = [Message(user="user", text=message)]
             response_data = await generate_completion_response(
-                messages=messages, user="user"
+                messages=messages
             )
             # send the result
             await process_response(
-                user="user", thread=thread, response_data=response_data
+                thread=thread, response_data=response_data
             )
     except Exception as e:
         logger.exception(e)
@@ -165,7 +165,7 @@ async def on_message(message: DiscordMessage):
         # generate the response
         async with thread.typing():
             response_data = await generate_completion_response(
-                messages=channel_messages, user='user'
+                messages=channel_messages
             )
 
         if is_last_message_stale(
@@ -178,7 +178,7 @@ async def on_message(message: DiscordMessage):
 
         # send response
         await process_response(
-            user=message.author, thread=thread, response_data=response_data
+            thread=thread, response_data=response_data
         )
     except Exception as e:
         logger.exception(e)

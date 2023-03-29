@@ -30,7 +30,7 @@ class CompletionData:
 
 
 async def generate_completion_response(
-    messages: List[Message], user: str
+    messages: List[Message]
 ) -> CompletionData:
     try:
         prompt = Prompt(
@@ -46,7 +46,7 @@ async def generate_completion_response(
             model="gpt-3.5-turbo",
             messages=rendered,
             top_p=0.9,
-            max_tokens=1536, 
+            max_tokens=1024,
         )
 
         reply = response.choices[0].message.content.strip()
@@ -73,7 +73,7 @@ async def generate_completion_response(
 
 
 async def process_response(
-    user: str, thread: discord.Thread, response_data: CompletionData
+    thread: discord.Thread, response_data: CompletionData
 ):
     status = response_data.status
     reply_text = response_data.reply_text

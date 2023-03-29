@@ -24,10 +24,10 @@ def discord_message_to_message(message: DiscordMessage) -> Optional[Message]:
             return Message(user='user', text=field.value)
     else:
         if message.content:
-            if message.author.name == 'chat':
-                return Message(user='assistant', text=message.content)
-            else:
+            if message.author.name != 'assistant':
                 return Message(user='user', text=message.content)
+            else:
+                return Message(user='assistant', text=message.content)
             
     return None
 

@@ -38,10 +38,10 @@ class Prompt:
     convo: Conversation
 
     def render(self):
-        text = list([self.header.render()]
+        messages = list([self.header.render()]
             + [Message("system", "Example conversations:").render()]
             + list(itertools.chain.from_iterable([conversation.render() for conversation in self.examples]))
             + [Message("system", "Current conversation:").render()]
             + self.convo.render()
         )
-        return text
+        return messages
