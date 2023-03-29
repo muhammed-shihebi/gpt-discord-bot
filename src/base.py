@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional, List
-
-SEPARATOR_TOKEN = "<|endoftext|>"
-
+import itertools
 
 @dataclass(frozen=True)
 class Message:
@@ -10,24 +8,20 @@ class Message:
     text: Optional[str] = None
 
     def render(self):
-        result = self.user + ":"
-        if self.text is not None:
-            result += " " + self.text
-        return result
+        return {
+            "role": self.user,
+            "content": self.text,
+        }
 
 
 @dataclass
 class Conversation:
     messages: List[Message]
-
     def prepend(self, message: Message):
         self.messages.insert(0, message)
         return self
-
     def render(self):
-        return f"\n{SEPARATOR_TOKEN}".join(
-            [message.render() for message in self.messages]
-        )
+        return [message.render() for message in self.messages]
 
 
 @dataclass(frozen=True)
@@ -44,10 +38,10 @@ class Prompt:
     convo: Conversation
 
     def render(self):
-        return f"\n{SEPARATOR_TOKEN}".join(
-            [self.header.render()]
-            + [Message("System", "Example conversations:").render()]
-            + [conversation.render() for conversation in self.examples]
-            + [Message("System", "Current conversation:").render()]
-            + [self.convo.render()],
+        text = list([self.header.render()]
+            + [Message("system", "Example conversations:").render()]
+            + list(itertools.chain.from_iterable([conversation.render() for conversation in self.examples]))
+            + [Message("system", "Current conversation:").render()]
+            + self.convo.render()
         )
+        return text

@@ -37,5 +37,5 @@ MAX_THREAD_MESSAGES = 200
 ACTIVATE_THREAD_PREFX = "💬✅"
 INACTIVATE_THREAD_PREFIX = "💬❌"
 MAX_CHARS_PER_REPLY_MSG = (
-    1500  # discord has a 2k limit, we just break message into 1.5k
+    1700  # discord has a 2k limit, we just break message into 1.5k
 )

@@ -40,10 +40,7 @@ async def on_ready():
     for c in EXAMPLE_CONVOS:
         messages = []
         for m in c.messages:
-            if m.user == "Lenard":
-                messages.append(Message(user=client.user.name, text=m.text))
-            else:
-                messages.append(m)
+            messages.append(m)
         completion.MY_BOT_EXAMPLE_CONVOS.append(Conversation(messages=messages))
     await tree.sync()
 
@@ -92,13 +89,13 @@ async def chat_command(int: discord.Interaction, message: str):
         )
         async with thread.typing():
             # fetch completion
-            messages = [Message(user=user.name, text=message)]
+            messages = [Message(user="user", text=message)]
             response_data = await generate_completion_response(
-                messages=messages, user=user
+                messages=messages, user="user"
             )
             # send the result
             await process_response(
-                user=user, thread=thread, response_data=response_data
+                user="user", thread=thread, response_data=response_data
             )
     except Exception as e:
         logger.exception(e)

@@ -35,21 +35,21 @@ async def generate_completion_response(
     try:
         prompt = Prompt(
             header=Message(
-                "System", f"Instructions for {MY_BOT_NAME}: {BOT_INSTRUCTIONS}"
+                "system", f"{BOT_INSTRUCTIONS}"
             ),
             examples=MY_BOT_EXAMPLE_CONVOS,
-            convo=Conversation(messages + [Message(MY_BOT_NAME)]),
+            convo=Conversation(messages),
         )
+
         rendered = prompt.render()
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=rendered,
-            temperature=1.0,
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=rendered,
             top_p=0.9,
-            max_tokens=1024,
-            stop=["<|endoftext|>"],
+            max_tokens=1536, 
         )
-        reply = response.choices[0].text.strip()
+
+        reply = response.choices[0].message.content.strip()
         return CompletionData(
             status=CompletionResult.OK, reply_text=reply, status_text=None
         )
