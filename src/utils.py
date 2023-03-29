@@ -21,10 +21,14 @@ def discord_message_to_message(message: DiscordMessage) -> Optional[Message]:
     ):
         field = message.reference.cached_message.embeds[0].fields[0]
         if field.value:
-            return Message(user=field.name, text=field.value)
+            return Message(user='user', text=field.value)
     else:
         if message.content:
-            return Message(user=message.author.name, text=message.content)
+            if message.author.name == 'chat':
+                return Message(user='assistant', text=message.content)
+            else:
+                return Message(user='user', text=message.content)
+            
     return None
 
 

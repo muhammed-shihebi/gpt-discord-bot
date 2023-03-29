@@ -165,7 +165,7 @@ async def on_message(message: DiscordMessage):
         # generate the response
         async with thread.typing():
             response_data = await generate_completion_response(
-                messages=channel_messages, user=message.author
+                messages=channel_messages, user='user'
             )
 
         if is_last_message_stale(
